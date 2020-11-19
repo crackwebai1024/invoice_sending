@@ -1,0 +1,21 @@
+//css for mailsender
+.mailwrapper {
+  padding: 1rem;
+  .row {
+    .v-text-field {
+      height: 40px;
+      .v-input__control {
+        height: 40px;
+        .v-input__slot {
+          min-height: 40px;
+          fieldset {
+            height: 40px;
+          }
+          .v-text-field__slot {
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+}

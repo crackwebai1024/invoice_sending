@@ -1,0 +1,30 @@
+//css for invmethod
+.v-card {
+  .v-card__title {
+    padding: 0.25rem;
+    .container {
+      .v-text-field {
+        height: 50px;
+        .v-input__control {
+          height: 50px;
+        }
+      }
+    }
+  }
+  .v-card__text {
+    padding: 0.25rem;
+    .row {
+      margin: 0px;
+      .v-text-field {
+        padding: 0.25rem;
+        height: 60px;
+      }
+      .col {
+        padding: 0.25rem;
+        .container {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+}
