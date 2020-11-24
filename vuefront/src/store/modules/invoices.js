@@ -1,4 +1,4 @@
-import { invoiceData, creatInvData } from "./invoicedata";
+import { invoiceData, creatInvData } from "./staticdata/invoicedata";
 
 const state = {
   invoices: invoiceData,

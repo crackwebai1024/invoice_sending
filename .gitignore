@@ -1,7 +1,9 @@
 .DS_Store
 node_modules
 /dist
-
+/server/vendor
+/vuefront/node_modules
+/server/.env
 # local env files
 .env.local
 .env.*.local
