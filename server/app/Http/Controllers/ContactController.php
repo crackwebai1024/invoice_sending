@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Booking;
+use App\Contact;
 use Illuminate\Http\Request;
 
-class BookingsController extends Controller
+class ContactController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,6 @@ class BookingsController extends Controller
     public function index()
     {
         //
-        $bookings = Booking::all();
-        $bookings->toArray();
-        return response()->json($bookings);
     }
 
     /**
@@ -44,21 +41,21 @@ class BookingsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Booking  $booking
+     * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Booking $booking)
+    public function show(Contact $contact)
     {
-        //
+        return response($contact, 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Booking  $booking
+     * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit(Booking $booking)
+    public function edit(Contact $contact)
     {
         //
     }
@@ -67,10 +64,10 @@ class BookingsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Booking  $booking
+     * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, Contact $contact)
     {
         //
     }
@@ -78,10 +75,10 @@ class BookingsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Booking  $booking
+     * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Booking $booking)
+    public function destroy(Contact $contact)
     {
         //
     }

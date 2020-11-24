@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from "vuex";
 import AppBar from "../components/AppBar.vue";
 import InvMethod from "../components/InvMethod.vue";
 import InvoiceTable from "../components/InvoiceTable.vue";
@@ -30,5 +31,12 @@ export default {
     InvoiceTable,
     AppBar,
   },
+  methods:{
+    ...mapActions(["fetchAllBookings"]),
+  },
+  created() {
+    console.log("this is component did mount")
+    this.fetchAllBookings();
+  }
 };
 </script>

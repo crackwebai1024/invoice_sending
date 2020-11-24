@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::resource('bookings', 'BookingsController');
+
+Route::get('/bookingcustomer', 'JoinTableController@joinBookingCustomer');
+Route::resource('contact', 'ContactController');

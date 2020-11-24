@@ -6,17 +6,17 @@
     </h1>
     <div class="ctm">
       <v-container>
-        <p class="mb-1">Customer Name,</p>
-        <p class="mb-1">Address1,</p>
-        <p class="mb-1">Address2,</p>
-        <p class="mb-1">Address3,</p>
+        <p class="mb-1"><label class="cusinfo">Customer Name</label>:{{singInv_cus.customerName}}</p>
+        <p class="mb-1"><label class="cusinfo">Address1</label>:{{singInv_cus.address}}</p>
+        <p class="mb-1"><label class="cusinfo">Address2</label>:{{singInv_cus.address_two}}</p>
+        <p class="mb-1"><label class="cusinfo">Address3</label>:{{singInv_cus.address_three}}</p>
       </v-container>
     </div>
     <v-container fluid>
       <v-row>
         <v-col md="6" sm="12" xs12>
           <v-list>
-            <v-list-item v-for="(item, i) in items" :key="i">
+            <v-list-item v-for="(item, i) in singInv_items" :key="i">
               <v-row>
                 <v-col sm="3" class="font-weight-bold">{{ item.name }}</v-col>
                 <v-col sm="3" class="font-weight-normal">
@@ -30,7 +30,7 @@
           <v-row>
             <v-list>
               <v-list-item
-                v-for="(auth, i) in auths"
+                v-for="(auth, i) in singInv_auths"
                 :key="i"
                 class="font-weight-bold"
               >
@@ -39,7 +39,7 @@
             </v-list>
             <v-spacer></v-spacer>
             <v-list>
-              <v-list-item v-for="(auth, i) in auths" :key="i">
+              <v-list-item v-for="(auth, i) in singInv_auths" :key="i">
                 {{ auth.value }}
               </v-list-item>
             </v-list>
@@ -55,6 +55,7 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import SingleTable from "../components/SingleTable";
 import BankDetails from "../components/BankDetails.vue";
 import AppBar from "../components/AppBar.vue";
@@ -65,20 +66,9 @@ export default {
     BankDetails,
     AppBar,
   },
+  computed: mapGetters(["singInv_items", "singInv_auths", "singInv_cus"]),
   data() {
     return {
-      items: [
-        { name: "Venue/Supplier:", value: "VENUE NAME" },
-        { name: "Arrival Date:", value: "01/01/2020" },
-        { name: "Event:", value: "EVENT NAME" },
-        { name: "Agency Ref:", value: "AGENCY REF" },
-        { name: "Currency:", value: "GBP" },
-      ],
-      auths: [
-        { name: "A/C No:", value: "NHSENG" },
-        { name: "Booker:", value: "Sarah Harrison" },
-        { name: "Venue Code:", value: "6973" },
-      ],
     };
   },
 };
@@ -108,6 +98,10 @@ export default {
   border: solid 2px rgb(155, 155, 155);
   min-height: 150px;
   padding: 15px;
+}
+.cusinfo{
+  width: 120px;
+  display: inline-block;
 }
 @media only screen and (max-width: 600px) {
   div.container.px-10 {

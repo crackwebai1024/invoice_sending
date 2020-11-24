@@ -80,7 +80,7 @@ export default {
     error: "",
   }),
   methods: {
-    ...mapActions(["fetchInvoices"]),
+    ...mapActions(["fetchFilteredBookings"]),
     setStartDate(date) {
       this.startDate = date;
     },
@@ -101,7 +101,7 @@ export default {
         endDate: this.endDate,
         customerName: this.customerName,
       };
-      this.fetchInvoices(intdate);
+      this.fetchFilteredBookings(intdate);
     },
     openModal() {
       this.dialog = true;

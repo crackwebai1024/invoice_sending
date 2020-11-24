@@ -5,7 +5,7 @@
       :headers="headers"
       :items="allInvoices"
       :singleSelect="true"
-      item-key="invoiceID"
+      item-key="ref"
       show-select
       class="elevation-1"
     >
@@ -13,7 +13,7 @@
         <v-row>
           <div class="circle" v-for="icon in icons" v-bind:key="icon.name">
             <router-link :to="icon.url">
-              <v-icon small>{{ icon.name }}</v-icon>
+              <v-icon small @click="getSingleInvoice(item.ref)">{{ icon.name }}</v-icon>
             </router-link>
           </div>
         </v-row>
@@ -22,7 +22,7 @@
   </v-card>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "InvoiceTable",
   computed: mapGetters(["allInvoices"]),
@@ -39,20 +39,23 @@ export default {
           text: "Booking Ref",
           align: "start",
           sortable: false,
-          value: "invoiceID",
+          value: "ref",
         },
-        { text: "Type", value: "type" },
-        { text: "Customer", value: "customerName" },
-        { text: "Venue/Supplier", value: "vorsup" },
+        { text: "Type", value: "event_type" },
+        { text: "Customer", value: "name" },
+        { text: "Venue/Supplier", value: "type" },
         { text: "NET", value: "net" },
         { text: "Gross", value: "gross" },
-        { text: "Marked Up", value: "markup" },
-        { text: "Arrival", value: "arrivalDate" },
-        { text: "Bill Due", value: "billingDate" },
+        { text: "Marked Up", value: "gross" },
+        { text: "Arrival", value: "primary_event_date" },
+        { text: "Bill Due", value: "updated_at" },
         { text: "Actions", value: "actions" },
       ],
     };
   },
+  methods:{
+    ...mapActions(["getSingleInvoice"])
+  }
 };
 </script>
 <style>
