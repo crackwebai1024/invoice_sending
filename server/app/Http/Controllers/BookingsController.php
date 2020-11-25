@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Booking;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookingsController extends Controller
@@ -73,6 +74,10 @@ class BookingsController extends Controller
     public function update(Request $request, Booking $booking)
     {
         //
+        $current_date_time = Carbon::now()->toDateTimeString();
+        $updateData = array('invoicestatus' => $request->status, 'creatinv_at' => $current_date_time);
+        $booking->update($updateData);
+        return response()->json("success", 200);
     }
 
     /**

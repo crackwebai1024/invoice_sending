@@ -8,6 +8,7 @@
       item-key="ref"
       show-select
       class="elevation-1"
+      @input="$emit('onselectbooking', selected)"
     >
       <template v-slot:item.actions="{ item }">
         <v-row>

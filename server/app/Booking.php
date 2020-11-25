@@ -8,5 +8,6 @@ class Booking extends Model
 {
     //
     protected $table = 'booking';
+    protected $fillable = ['invoicestatus', 'creatinv_at'];
     public $incrementing = false;
 }

@@ -17,7 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('bookings', 'BookingsController');
-
 Route::get('/bookingcustomer', 'JoinTableController@joinBookingCustomer');
+// Route::post('/bookingcustomerfilter', 'JoinTableController@joinBookingCustomer');
 Route::resource('contact', 'ContactController');

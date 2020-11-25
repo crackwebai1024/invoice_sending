@@ -12,7 +12,7 @@
         </v-card-title>
         <v-card-text> </v-card-text>
         <v-card-actions class="d-flex justify-center">
-          <v-btn class="grey darken-6 mr-5" text @click="$emit('closeModal')">
+          <v-btn class="grey darken-6 mr-5" text @click="$emit('closeModal', false)">
             No
           </v-btn>
           <router-link to="/createdinv">
@@ -20,7 +20,7 @@
               class="grey darken-1"
               color="white"
               text
-              @click="$emit('closeModal')"
+              @click="$emit('closeModal', true)"
             >
               Yes
             </v-btn>
@@ -35,7 +35,7 @@
     <v-icon
       class="clsicon"
       :class="opendialog ? 'd-block' : 'd-none'"
-      @click="$emit('closeModal')"
+      @click="$emit('closeModal', false)"
       >fas fa-times
     </v-icon>
   </v-row>

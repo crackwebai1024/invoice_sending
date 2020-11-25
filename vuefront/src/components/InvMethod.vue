@@ -43,9 +43,6 @@
             placeholder="Customer Name"
             v-on:change="setCustomerName"
           />
-          <p class="ma-0 d-flex justify-center red--text">
-            {{ error }}
-          </p>
           <v-container>
             <v-row>
               <v-container class="d-flex">
@@ -59,6 +56,9 @@
         </v-col>
       </v-row>
     </v-card-text>
+    <p class="ma-0 d-flex justify-center red--text">
+      {{ error }}
+    </p>
   </v-card>
 </template>
 <script>
@@ -71,6 +71,7 @@ export default {
     Calendar,
     Confirm,
   },
+  props:["selectitem"],
   data: () => ({
     dialog: false,
     items: ["All", "Reconciled", "Unreconciled"],
@@ -80,7 +81,7 @@ export default {
     error: "",
   }),
   methods: {
-    ...mapActions(["fetchFilteredBookings"]),
+    ...mapActions(["fetchFilteredBookings", "createInvoiceStatus"]),
     setStartDate(date) {
       this.startDate = date;
     },
@@ -89,13 +90,12 @@ export default {
     },
     setCustomerName(customerName) {
       this.customerName = customerName;
-      this.error = "";
     },
     search() {
-      if (this.customerName === "") {
-        this.error = "Invalid customer name!";
-        return;
-      }
+      // if (this.customerName === "") {
+      //   this.error = "Invalid customer name!";
+      //   return;
+      // }
       let intdate = {
         startDate: this.startDate,
         endDate: this.endDate,
@@ -104,12 +104,29 @@ export default {
       this.fetchFilteredBookings(intdate);
     },
     openModal() {
-      this.dialog = true;
+      if(this.selectitem.length > 0){
+        this.dialog = true;
+        this.error = "";
+      } else {
+        console.log("before open the modal");
+        this.error = "You should select an item!";
+      }
     },
-    closeModal() {
+    closeModal(create) {
+      if(create){
+        console.log("selectitem", this.selectitem);
+        this.createInvoiceStatus(this.selectitem);
+      }
       this.dialog = false;
     },
   },
+  watch:{
+    selectitem(){
+      if(this.selectitem.length > 0){
+        this.error = "";
+      }
+    }
+  }
 };
 </script>
 <style scoped>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTestToTable extends Migration
+class AddInvstatus extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,8 @@ class AddTestToTable extends Migration
     {
         Schema::table('booking', function (Blueprint $table) {
             //
-            $table->string('testfield', 100);
+            $table->boolean('invoicestatus')->default(false);
+            $table->timestamp('creatinv_at')->nullable()->default(null);;
         });
     }
 

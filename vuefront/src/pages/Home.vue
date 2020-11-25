@@ -13,8 +13,8 @@
           <v-avatar color="blue-grey" size="50"></v-avatar>
           <h1 class="pl-5">Create Invoice</h1>
         </v-card>
-        <InvMethod />
-        <InvoiceTable />
+        <InvMethod v-bind:selectitem="selected"/>
+        <InvoiceTable v-on:onselectbooking="setSelected"/>
       </v-container>
     </v-content>
   </div>
@@ -31,11 +31,18 @@ export default {
     InvoiceTable,
     AppBar,
   },
+  data() {
+    return{
+      selected:[],
+    }
+  },
   methods:{
     ...mapActions(["fetchAllBookings"]),
+    setSelected(selecteditem){
+      this.selected = selecteditem;
+    },
   },
   created() {
-    console.log("this is component did mount")
     this.fetchAllBookings();
   }
 };

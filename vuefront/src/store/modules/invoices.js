@@ -5,6 +5,7 @@ import { baseUrl } from "./config";
 const state = {
     invoices: [],
     createdinvs: creatInvData,
+    alldata: [],
     invoice: {},
 };
 
@@ -42,15 +43,17 @@ const actions = {
     fetchFilteredBookings({ commit }, searchData) {
         let startDate = new Date(searchData.startDate);
         let endDate = new Date(searchData.endDate);
-        let filteredData = invoiceData.filter((item) => {
-            let arrivalDate = new Date(getFormattedDate(item.arrivalDate));
-            let billingDate = new Date(getFormattedDate(item.billingDate));
-            if (
-                arrivalDate > startDate &&
-                billingDate < endDate &&
-                searchData.customerName === item.customerName
-            ) {
-                return item;
+        console.log("in the store ==> ", startDate, endDate);
+        let filteredData = state.allData.filter((item) => {
+            let arrivalDate = new Date(item.primary_event_date);
+            let billingDate = new Date(item.updated_at);
+            if (searchData.customerName === "") {
+                if (arrivalDate > startDate && billingDate < endDate)
+                    return item;
+            } else {
+                if (arrivalDate > startDate && billingDate < endDate &&
+                    searchData.customerName === item.name)
+                    return item;
             }
         });
         commit("setInvoices", filteredData);
@@ -60,6 +63,7 @@ const actions = {
         axios.get(url).then(response => {
             console.log(response.data);
             commit("setInvoices", response.data);
+            commit("setAllData", response.data);
         }).catch(err => {
             console.log(err);
         });
@@ -85,11 +89,28 @@ const actions = {
         }).catch(err => {
             console.log(err);
         })
+    },
+    createInvoiceStatus({ commit }, item) {
+        console.log("this is in action");
+        let idx = state.invoices.findIndex((booking) => {
+            if (booking.ref === item[0].ref)
+                return booking
+        });
+        console.log(idx);
+        let url = baseUrl + "/api/bookings/" + state.invoices[idx].id;
+        console.log(url);
+        let body = { status: true };
+        axios.put(url, body).then(response => {
+            console.log(response.data);
+        }).catch(err => {
+            console.log(err);
+        })
     }
 };
 
 const mutations = {
     setInvoices: (state, invoices) => (state.invoices = invoices),
+    setAllData: (state, allData) => (state.allData = allData),
     setInvoice: (state, invoice) => (state.invoice = invoice),
 };
 
