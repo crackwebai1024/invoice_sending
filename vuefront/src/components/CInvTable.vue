@@ -4,16 +4,12 @@
       v-model="selected"
       :headers="headers"
       :items="createdInvs"
-      :single-select="singleSelect"
+      :single-select="false"
       item-key="ref"
       show-select
       class="elevation-1"
       @input="$emit('onselectinvoice', selected)"
     >
-      <template v-slot:top>
-        <v-switch v-model="singleSelect" label="Single select" class="pa-3">
-        </v-switch>
-      </template>
       <template v-slot:item.actions="{ item }">
         <v-row>
           <div class="circle" v-for="icon in icons" v-bind:key="icon.name">
@@ -39,7 +35,6 @@ export default {
         { name: "fa fa-check", url: "" },
         { name: "far fa-eye", url: "" },
       ],
-      singleSelect: false,
       selected: [],
       headers: [
         {
