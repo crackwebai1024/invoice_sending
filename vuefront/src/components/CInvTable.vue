@@ -5,7 +5,7 @@
       :headers="headers"
       :items="createdInvs"
       :single-select="singleSelect"
-      item-key="invoice"
+      item-key="ref"
       show-select
       class="elevation-1"
       @input="$emit('onselectinvoice', selected)"
@@ -46,13 +46,13 @@ export default {
           text: "Booking Ref",
           align: "start",
           sortable: false,
-          value: "invoice",
+          value: "ref",
         },
         { text: "Consolidated", value: "consolidated" },
-        { text: "Customer", value: "customerName" },
-        { text: "Venue/Supplier", value: "vorsup" },
-        { text: "Value(ex/Inc VAT)", value: "net" },
-        { text: "Date", value: "gross" },
+        { text: "Customer", value: "name" },
+        { text: "Venue/Supplier", value: "type" },
+        { text: "Value(ex/Inc VAT)", value: "transaction" },
+        { text: "Date", value: "creatinv_at" },
         { text: "Actions", value: "actions" },
       ],
     };

@@ -92,10 +92,6 @@ export default {
       this.customerName = customerName;
     },
     search() {
-      // if (this.customerName === "") {
-      //   this.error = "Invalid customer name!";
-      //   return;
-      // }
       let intdate = {
         startDate: this.startDate,
         endDate: this.endDate,
@@ -105,10 +101,13 @@ export default {
     },
     openModal() {
       if(this.selectitem.length > 0){
+        if(this.selectitem[0].invoicestatus === 1){
+          this.error = "Invoice for this booking was already created."
+          return;
+        }
         this.dialog = true;
         this.error = "";
       } else {
-        console.log("before open the modal");
         this.error = "You should select an item!";
       }
     },

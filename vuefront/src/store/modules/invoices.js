@@ -4,7 +4,7 @@ import { baseUrl } from "./config";
 
 const state = {
     invoices: [],
-    createdinvs: creatInvData,
+    createdinvs: [],
     alldata: [],
     invoice: {},
 };
@@ -32,14 +32,9 @@ const getters = {
     })
 };
 
-const getFormattedDate = (date) => {
-    let dates = date.split("/");
-    let year = dates[2].length === 2 ? `20${dates[2]}` : dates[2];
-    let month = dates[1];
-    let day = dates[0];
-    return [year, month, day];
-};
 const actions = {
+
+    // get all filtered booking based on search condition(date and customername)
     fetchFilteredBookings({ commit }, searchData) {
         let startDate = new Date(searchData.startDate);
         let endDate = new Date(searchData.endDate);
@@ -58,16 +53,43 @@ const actions = {
         });
         commit("setInvoices", filteredData);
     },
+
+    // get all booking data from backend at table from joining
+    // with booking and customer tables
     fetchAllBookings({ commit }) {
         let url = baseUrl + "/bookingcustomer"
         axios.get(url).then(response => {
             console.log(response.data);
             commit("setInvoices", response.data);
             commit("setAllData", response.data);
+
+            // select invoice created data and add field
+            let createdData = response.data.filter(item => {
+                if (item.invoicestatus === 1) {
+                    item.consolidated = "con";
+                    item.transaction = "£" + parseInt(item.net) + "/" + "£" + item.gross;
+                    return item
+                }
+            });
+
+            // sort created data by latest date
+            createdData.sort(function(a, b) {
+                if (a.creatinv_at > b.creatinv_at) {
+                    return -1;
+                } else if (a.creatinv_at < b.creatinv_at) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+            console.log(createdData);
+            commit("setCreatedInv", createdData);
         }).catch(err => {
             console.log(err);
         });
     },
+
+    // get single invoice by click view icon
     getSingleInvoice({ commit }, ref) {
         let idx = state.invoices.findIndex((item) => (item.ref === ref));
         console.log(idx, state.invoices[idx]);
@@ -83,14 +105,17 @@ const actions = {
             singleinvoice.customerName = booking.name;
             singleinvoice.address = booking.address;
             singleinvoice.address_two = booking.address_two;
-            singleinvoice.address_three = booking.town + " " + booking.county + " " + booking.country + " " + booking.postcode;
+            singleinvoice.address_three = booking.town + " " + booking.county +
+                " " + booking.country + " " + booking.postcode;
             console.log("singleinvoice ==> ", singleinvoice);
             commit("setInvoice", singleinvoice)
         }).catch(err => {
             console.log(err);
         })
     },
-    createInvoiceStatus({ commit }, item) {
+
+    // update database booking table with created invoice status
+    createInvoiceStatus({ commit, dispatch }, item) {
         console.log("this is in action");
         let idx = state.invoices.findIndex((booking) => {
             if (booking.ref === item[0].ref)
@@ -102,6 +127,7 @@ const actions = {
         let body = { status: true };
         axios.put(url, body).then(response => {
             console.log(response.data);
+            dispatch('fetchAllBookings');
         }).catch(err => {
             console.log(err);
         })
@@ -112,6 +138,7 @@ const mutations = {
     setInvoices: (state, invoices) => (state.invoices = invoices),
     setAllData: (state, allData) => (state.allData = allData),
     setInvoice: (state, invoice) => (state.invoice = invoice),
+    setCreatedInv: (state, createdInv) => (state.createdinvs = createdInv),
 };
 
 export default {
