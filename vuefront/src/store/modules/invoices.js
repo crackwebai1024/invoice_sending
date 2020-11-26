@@ -40,14 +40,14 @@ const actions = {
         let endDate = new Date(searchData.endDate);
         console.log("in the store ==> ", startDate, endDate);
         let filteredData = state.allData.filter((item) => {
-            let arrivalDate = new Date(item.primary_event_date);
             let billingDate = new Date(item.updated_at);
             if (searchData.customerName === "") {
-                if (arrivalDate > startDate && billingDate < endDate)
+                if (billingDate > startDate && billingDate < endDate)
                     return item;
             } else {
-                if (arrivalDate > startDate && billingDate < endDate &&
-                    searchData.customerName === item.name)
+                let patt = new RegExp(searchData.customerName, "i");
+                if (billingDate > startDate && billingDate < endDate &&
+                    item.name.match(patt) !== null)
                     return item;
             }
         });
@@ -60,15 +60,17 @@ const actions = {
         let url = baseUrl + "/bookingcustomer"
         axios.get(url).then(response => {
             console.log(response.data);
-            commit("setInvoices", response.data);
-            commit("setAllData", response.data);
 
-            // select invoice created data and add field
-            let createdData = response.data.filter(item => {
+            // select invoice created data and non created data
+            let createdData = [];
+            let nonCreatedData = [];
+            response.data.forEach(item => {
                 if (item.invoicestatus === 1) {
                     item.consolidated = "con";
                     item.transaction = "£" + parseInt(item.net) + "/" + "£" + item.gross;
-                    return item
+                    createdData.push(item);
+                } else {
+                    nonCreatedData.push(item);
                 }
             });
 
@@ -82,7 +84,9 @@ const actions = {
                     return 0;
                 }
             });
-            console.log(createdData);
+            // console.log(createdData);
+            commit("setInvoices", nonCreatedData);
+            commit("setAllData", nonCreatedData);
             commit("setCreatedInv", createdData);
         }).catch(err => {
             console.log(err);
@@ -115,19 +119,22 @@ const actions = {
     },
 
     // update database booking table with created invoice status
-    createInvoiceStatus({ commit, dispatch }, item) {
-        console.log("this is in action");
-        let idx = state.invoices.findIndex((booking) => {
-            if (booking.ref === item[0].ref)
-                return booking
-        });
-        console.log(idx);
-        let url = baseUrl + "/api/bookings/" + state.invoices[idx].id;
-        console.log(url);
+    createInvoiceStatus({ dispatch }, items) {
+        let promises = [];
         let body = { status: true };
-        axios.put(url, body).then(response => {
-            console.log(response.data);
-            dispatch('fetchAllBookings');
+        items.forEach(item => {
+            let url = baseUrl + "/api/bookings/" + item.id;
+            console.log(url);
+            promises.push(
+                axios.put(url, body).then(response => {
+                    console.log(response.data);
+                }).catch(err => {
+                    console.log(err);
+                })
+            );
+        });
+        Promise.all(promises).then(() => {
+            dispatch('fetchAllBookings')
         }).catch(err => {
             console.log(err);
         })

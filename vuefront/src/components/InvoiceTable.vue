@@ -4,18 +4,14 @@
       v-model="selected"
       :headers="headers"
       :items="allInvoices"
-      :singleSelect="true"
+      :singleSelect="false"
       item-key="ref"
       show-select
       class="elevation-1"
       @input="$emit('onselectbooking', selected)"
     >
-      <template v-slot:item.invoicestatus="{ item }">
+      <template v-slot:item.id="{ item }">
         <v-row>
-          <div :class="[(item.invoicestatus === 1)?'green':'gray', 'circle']" >
-            <v-icon small v-if="item.invoicestatus === 1">fa fa-check</v-icon>
-            <v-icon small v-else>fa fa-times</v-icon> 
-          </div>
           <div class="circle" v-for="icon in icons" v-bind:key="icon.name">
             <router-link :to="icon.url">
               <v-icon small @click="getSingleInvoice(item.ref)">{{ icon.name }}</v-icon>
@@ -52,9 +48,8 @@ export default {
         { text: "NET", value: "net" },
         { text: "Gross", value: "gross" },
         { text: "Marked Up", value: "gross" },
-        { text: "Arrival", value: "primary_event_date" },
         { text: "Bill Due", value: "updated_at" },
-        { text: "Actions", value: "invoicestatus" },
+        { text: "Actions", value: "id" },
       ],
     };
   },

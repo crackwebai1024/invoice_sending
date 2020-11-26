@@ -101,10 +101,6 @@ export default {
     },
     openModal() {
       if(this.selectitem.length > 0){
-        if(this.selectitem[0].invoicestatus === 1){
-          this.error = "Invoice for this booking was already created."
-          return;
-        }
         this.dialog = true;
         this.error = "";
       } else {
