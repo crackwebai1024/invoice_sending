@@ -21,7 +21,7 @@ export default {
           name: "Dashboard",
         },
         {
-          link: "/invoice",
+          link: "/createdinv",
           icon: "fas fa-file",
           name: "Invoice",
         },

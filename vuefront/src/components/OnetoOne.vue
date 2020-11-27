@@ -11,39 +11,42 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <v-container
-            fluid
-            class="justify-space-between invd"
-            :class="issingleuser ? 'd-flex' : 'd-none'"
-            v-for="invoice in selected"
-            :key="invoice.invoiceID"
-          >
-            <input type="checkbox" class="check" />
-            <p v-for="value in invoice" class="mb-1" :key="value">
-              {{ value }}
-            </p>
-          </v-container>
-          <v-row :class="issingleuser ? '' : 'd-none'">
-            <v-col md="6" v-for="item in currencies" :key="item.currency">
-              <label>{{ item.currency }}</label>
-              <v-select
-                :items="item.values"
-                :placeholder="item.placeholder"
-                outlined
-              ></v-select>
-            </v-col>
-          </v-row>
+          <div v-if="issingleuser">
+            <v-container
+              fluid
+              class="justify-space-between invd d-flex"
+              v-for="invoice in selected"
+              :key="invoice.invoiceID"
+            >
+              <input type="checkbox" class="check" />
+              <p class="mb-1">{{ invoice.ref }}</p>
+              <p class="mb-1">{{ invoice.name }}</p>
+              <p class="mb-1">{{ invoice.gross }}</p>
+              <p class="mb-1">{{ invoice.email }}</p>
+            </v-container>
+            <v-row>
+              <v-col md="6" v-for="item in currencies" :key="item.currency">
+                <label>{{ item.currency }}</label>
+                <v-select
+                  :items="item.values"
+                  :placeholder="item.placeholder"
+                  outlined
+                ></v-select>
+              </v-col>
+            </v-row>
+          </div>
 
           <v-container
+            v-else
             v-for="invoice in selected"
-            :class="issingleuser ? 'd-none' : ''"
             :key="invoice.invoiceID"
           >
-            <v-container fluid class="d-flex justify-space-between invd">
+            <v-container fluid class="d-flex invd">
               <input type="checkbox" class="check" />
-              <p v-for="value in invoice" class="mb-1" :key="value">
-                {{ value }}
-              </p>
+              <p class="mb-1">{{ invoice.ref }}</p>
+              <p class="mb-1">{{ invoice.name }}</p>
+              <p class="mb-1">{{ invoice.gross }}</p>
+              <p class="mb-1">{{ invoice.email }}</p>
             </v-container>
             <v-row>
               <v-col md="6" v-for="item in currencies" :key="item.currency">
@@ -130,6 +133,12 @@ export default {
   display: flex;
   justify-content: flex-end;
   z-index: 3000;
+}
+.mb-1{
+  width:100%;
+}
+.check{
+  width: 200px;
 }
 @media only screen and (max-width: 1080px) {
   .clsicon {
