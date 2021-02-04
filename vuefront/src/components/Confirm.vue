@@ -12,7 +12,11 @@
         </v-card-title>
         <v-card-text> </v-card-text>
         <v-card-actions class="d-flex justify-center">
-          <v-btn class="grey darken-6 mr-5" text @click="$emit('closeModal', false)">
+          <v-btn
+            class="grey darken-6 mr-5"
+            text
+            @click="$emit('closeModal', false)"
+          >
             No
           </v-btn>
           <router-link to="/createdinv">

@@ -71,7 +71,7 @@ export default {
     Calendar,
     Confirm,
   },
-  props:["selectitem"],
+  props: ["selectitem"],
   data: () => ({
     dialog: false,
     items: ["All", "Reconciled", "Unreconciled"],
@@ -100,7 +100,7 @@ export default {
       this.fetchFilteredBookings(intdate);
     },
     openModal() {
-      if(this.selectitem.length > 0){
+      if (this.selectitem.length > 0) {
         this.dialog = true;
         this.error = "";
       } else {
@@ -108,20 +108,20 @@ export default {
       }
     },
     closeModal(create) {
-      if(create){
+      if (create) {
         console.log("selectitem", this.selectitem);
         this.createInvoiceStatus(this.selectitem);
       }
       this.dialog = false;
     },
   },
-  watch:{
-    selectitem(){
-      if(this.selectitem.length > 0){
+  watch: {
+    selectitem() {
+      if (this.selectitem.length > 0) {
         this.error = "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

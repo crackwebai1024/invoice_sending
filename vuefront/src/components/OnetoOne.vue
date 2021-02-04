@@ -86,7 +86,8 @@
       class="clsicon"
       :class="otodialog ? 'd-block' : 'd-none'"
       @click="close"
-      >fas fa-times
+    >
+      fas fa-times
     </v-icon>
   </v-row>
 </template>
@@ -134,10 +135,10 @@ export default {
   justify-content: flex-end;
   z-index: 3000;
 }
-.mb-1{
-  width:100%;
+.mb-1 {
+  width: 100%;
 }
-.check{
+.check {
   width: 200px;
 }
 @media only screen and (max-width: 1080px) {

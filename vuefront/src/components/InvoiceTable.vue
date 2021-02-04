@@ -14,7 +14,9 @@
         <v-row>
           <div class="circle" v-for="icon in icons" v-bind:key="icon.name">
             <router-link :to="icon.url">
-              <v-icon small @click="getSingleInvoice(item.ref)">{{ icon.name }}</v-icon>
+              <v-icon small @click="getSingleInvoice(item.ref)">
+                {{ icon.name }}
+              </v-icon>
             </router-link>
           </div>
         </v-row>
@@ -53,9 +55,9 @@ export default {
       ],
     };
   },
-  methods:{
-    ...mapActions(["getSingleInvoice"])
-  }
+  methods: {
+    ...mapActions(["getSingleInvoice"]),
+  },
 };
 </script>
 <style>
@@ -72,10 +74,10 @@ export default {
 .circle:hover {
   background-color: #999;
 }
-.green{
+.green {
   background-color: green;
 }
-.gray{
+.gray {
   background-color: grey;
 }
 </style>

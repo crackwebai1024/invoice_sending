@@ -75,9 +75,13 @@ class BookingsController extends Controller
     {
         //
         $current_date_time = Carbon::now()->toDateTimeString();
-        $updateData = array('invoicestatus' => $request->status, 'creatinv_at' => $current_date_time);
+        $updateData = [
+            'invoicestatus' => $request->status,
+            'creatinv_at' => $current_date_time,
+        ];
         $booking->update($updateData);
-        return response()->json("success", 200);
+        // return redirect()->action('JoinTableController@joinBookingCustomer');
+        return response()->json('success', 200);
     }
 
     /**
